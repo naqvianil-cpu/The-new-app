@@ -13,7 +13,6 @@ export const LANGUAGES: LanguageOption[] = [
   { code: 'hi', nativeName: 'हिन्दी', englishName: 'Hindi', isRTL: false },
   { code: 'bn', nativeName: 'বাংলা', englishName: 'Bangla', isRTL: false },
   { code: 'ne', nativeName: 'नेपाली', englishName: 'Nepali', isRTL: false },
-  { code: 'tl', nativeName: 'Filipino', englishName: 'Filipino', isRTL: false },
   { code: 'zh', nativeName: '中文', englishName: 'Chinese', isRTL: false },
 ];
 
