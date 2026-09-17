@@ -10,8 +10,11 @@ import SplashTransition from './SplashTransition';
 
 // How long the animated splash stays up at minimum, so a fast network
 // doesn't skip the brand moment entirely. Actual hand-off also waits for
-// `ready` -- see the component doc below.
-const MIN_DISPLAY_MS = 2500;
+// `ready` -- see the component doc below. The animated wordmark's own
+// build-in loop is 5040ms (see dynex-logo-anim.webp); this is padded a
+// little past that so the logo always finishes one full loop before the
+// splash can exit, rather than cutting away mid-animation.
+const MIN_DISPLAY_MS = 5300;
 const MIN_DISPLAY_MS_REDUCED_MOTION = 700;
 
 // Fixed square "stage" that LogoGlow, OrbitalRings and the logo image all
@@ -59,10 +62,10 @@ export default function DynexSplashScreen({ ready, onFinish }: DynexSplashScreen
     };
   }, []);
 
-  // The native (pre-JS) splash shows the same navy background + white
-  // wordmark configured in app.json, so hiding it as soon as this
-  // component has mounted (and painted the identical-looking JS splash
-  // underneath) is a seamless hand-off with no flash.
+  // The native (pre-JS) splash shows the same navy background configured
+  // in app.json, so hiding it as soon as this component has mounted (and
+  // painted the identical-looking JS splash underneath) is a seamless
+  // hand-off with no flash.
   useEffect(() => {
     SplashScreenNative.hideAsync().catch(() => {
       // Safe to ignore -- e.g. already hidden, or running on web.
@@ -113,9 +116,13 @@ export default function DynexSplashScreen({ ready, onFinish }: DynexSplashScreen
           style={[styles.logo, { opacity: logoOpacity, transform: [{ scale: logoScale }] }]}
         >
           <Image
-            source={require('../../../assets/dynex-logo-anim.webp')}
+            source={
+              reduceMotion
+                ? require('../../../assets/dynex-logo-static.png')
+                : require('../../../assets/dynex-logo-anim.webp')
+            }
             contentFit="contain"
-            autoplay
+            autoplay={!reduceMotion}
             style={styles.logo}
             accessibilityIgnoresInvertColors
           />
