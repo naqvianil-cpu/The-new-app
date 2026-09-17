@@ -51,12 +51,9 @@
           "cameraPermission": "DYNEX Worker Welfare uses your camera to attach evidence photos to a grievance you submit."
         }
       ],
-      [
+            [
         "expo-splash-screen",
         {
-          "image": "./assets/dynex-wordmark-white.png",
-          "imageWidth": 220,
-          "resizeMode": "contain",
           "backgroundColor": "#00033A"
         }
       ]
