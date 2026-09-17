@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AccessibilityInfo, Animated, StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, Animated, StyleSheet } from 'react-native';
+import { Image } from 'expo-image';
 import * as SplashScreenNative from 'expo-splash-screen';
 import { splashColors } from '../../theme';
 import AnimatedBackground from './AnimatedBackground';
 import LogoGlow from './LogoGlow';
-import LogoShimmer from './LogoShimmer';
 import OrbitalRings from './OrbitalRings';
 import SplashTransition from './SplashTransition';
 
@@ -20,10 +20,11 @@ const MIN_DISPLAY_MS_REDUCED_MOTION = 700;
 // constants in LogoGlow.tsx and OrbitalRings.tsx.
 const STAGE_SIZE = 340;
 
-// Native asset is 1900x407; keep that exact aspect ratio so the logo is
-// never stretched or distorted.
+// Native asset is 700x246 (the brand's animated wordmark build-in, ink
+// recolored white with the X's sliced accent kept in its original blue);
+// keep that exact aspect ratio so the logo is never stretched or distorted.
 const LOGO_WIDTH = 210;
-const LOGO_HEIGHT = LOGO_WIDTH / (1900 / 407);
+const LOGO_HEIGHT = LOGO_WIDTH / (700 / 246);
 
 interface DynexSplashScreenProps {
   // Whether the app has actually finished its own startup work
@@ -108,14 +109,17 @@ export default function DynexSplashScreen({ ready, onFinish }: DynexSplashScreen
       <Animated.View style={styles.stage}>
         <LogoGlow reduceMotion={reduceMotion} />
         <OrbitalRings reduceMotion={reduceMotion} />
-        <View style={styles.logo}>
-          <Animated.Image
-            source={require('../../../assets/dynex-wordmark-white.png')}
-            resizeMode="contain"
-            style={[styles.logo, { opacity: logoOpacity, transform: [{ scale: logoScale }] }]}
+        <Animated.View
+          style={[styles.logo, { opacity: logoOpacity, transform: [{ scale: logoScale }] }]}
+        >
+          <Image
+            source={require('../../../assets/dynex-logo-anim.webp')}
+            contentFit="contain"
+            autoplay
+            style={styles.logo}
+            accessibilityIgnoresInvertColors
           />
-          <LogoShimmer width={LOGO_WIDTH} height={LOGO_HEIGHT} reduceMotion={reduceMotion} />
-        </View>
+        </Animated.View>
       </Animated.View>
     </SplashTransition>
   );
